@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthResponse, UserRegisterReq } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 
@@ -14,7 +15,9 @@ export class SingupComponent implements OnInit {
   formSingUp: FormGroup;
   error: string;
 
-  constructor(private authService: AuthService) { 
+  constructor(
+    private authService: AuthService,
+     private router: Router) { 
     this.formSingUp = this.createForm();
     this.error = "";
   }
@@ -45,10 +48,9 @@ export class SingupComponent implements OnInit {
       (res: AuthResponse) => {
         console.log(res);
         localStorage.setItem('token', res.token);
-
+        this.router.navigate(['home']);
       },
       (error: HttpErrorResponse) => {
-        debugger
         this.error = error.error.error
       }
     );

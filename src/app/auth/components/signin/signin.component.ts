@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User, UserloginRequest, UserloginResponse } from '../../models/user';
+import { UserloginRequest, UserloginResponse } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-signin',
@@ -14,7 +14,6 @@ export class SigninComponent implements OnInit {
 
   formSingIn: FormGroup;
   loginUserReq: UserloginRequest;
-  userEmail: string;
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -22,7 +21,6 @@ export class SigninComponent implements OnInit {
     ) {
       this.formSingIn = this.createForm();
       this.loginUserReq = {email: "", password: ""};
-      this.userEmail = "";
      }
 
   ngOnInit(): void {
@@ -42,12 +40,10 @@ export class SigninComponent implements OnInit {
     this.authService.loginUser(this.loginUserReq)
       .subscribe(
         (res: UserloginResponse) => {
-          debugger
           console.log(res);
           this.userService.setUser(res.user, res.token);
-          this.userEmail = this.userService?.getUser().email;
           localStorage.setItem('token', res.token);
-          this.router.navigate(['']);
+          this.router.navigate(['home']);
         },
         (error: Error) => console.log(error)
       )

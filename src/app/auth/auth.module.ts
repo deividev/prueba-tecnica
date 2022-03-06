@@ -9,7 +9,8 @@ import { SingupComponent } from './components/singup/singup.component';
 
 //Services
 import { AuthService } from './services/auth.service';
-import { UserService } from './services/user.service';
+import { SharedModule } from '../shared/shared.module';
+import { UserService } from '../shared/services/user.service';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { UserService } from './services/user.service';
     AuthRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SharedModule
   ],
   providers: [AuthService, UserService]
 })

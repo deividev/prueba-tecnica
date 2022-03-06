@@ -32,7 +32,7 @@
               <label for="password" class="mb-2">
                     Password
               </label>
-              <span class="font-extrabold text-red-500" ng-if="error" >{{error}}</span>
+              <span class="font-extrabold text-red-500" *ngIf="error" >{{error}}</span>
               <input
                 formControlName="password"
                 id="password"
@@ -42,7 +42,7 @@
               />
             </div>
             <div class="flex items-center justify-center mb-4">
-              <p>You have account? <a routerLink="/auth/login" class="underline">Sign in</a> </p>
+              <p>You have account? <a routerLink="/auth/signin" class="underline">Sign in</a> </p>
             </div>
             <div class="flex items-center justify-center">
               <button  (click)="registerUser()" class="py-3 px-6 min-w-[200px] text-white rounded-lg bg-blue-400 shadow-lg block md:inline-block">Register</button>
