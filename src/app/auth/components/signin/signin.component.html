@@ -1,0 +1,45 @@
+<section class="w-100 h-screen flex">
+    
+    <!-- Form SingUp -->
+    <div class="w-1/2 flex flex-col justify-center items-center mx-40">
+        <h1 class="mt-2 text-3xl font-extrabold font-sans">Sing in to your account</h1>
+        <p >Email: {{userEmail}}</p>
+        <form [formGroup]="formSingIn" class="bg-white p-10 rounded-md w-full flex flex-col justify-center">
+            <div class="flex flex-col mb-4">
+                <label for="email" class="mb-2">
+                    Email
+                  </label>
+              <input
+                formControlName="email"
+                id="email"
+                type="email"
+                name="email"
+                class="h-10 w-full border-gray-300 border-2 px-2 rounded-md"
+              />
+            </div>
+            <div class="flex flex-col mb-4">
+                <label for="password" class="mb-2">
+                    Password
+                  </label>
+              <input
+                formControlName="password"
+                id="password"
+                type="password"
+                name="password"
+                class="h-10 w-full border-gray-300 border-2 px-2 rounded-md"
+              />
+            </div>
+            <div class="flex items-center justify-center mb-4">
+                <p>Don't have account? <a  routerLink="/auth/singUp" class="underline">Sign up</a> </p>
+            </div>
+            <div class="flex items-center justify-center">
+              <button  (click)="loginUser()" class="py-3 px-6 min-w-[200px] text-white rounded-lg bg-blue-400 shadow-lg block md:inline-block">Register</button>
+            </div>
+          </form>
+    </div>
+    <!-- Image Background -->
+    <div class="bg-gradient-to-b from-yellow-200 to-yellow-400 w-1/2">
+
+    </div>
+      
+</section>
