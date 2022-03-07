@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { User, UserloginRequest, UserRegisterReq } from '../models/user';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 
 @Injectable({
@@ -13,11 +14,15 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   registerUser(user: UserRegisterReq): any {
-    return this.http.post<any>(environment.singUpApi, user);
+    return this.http.post<any>(environment.singUpApi, user).pipe(
+      take(1)
+    );
   }
 
   loginUser(user: UserloginRequest): any {
-    return this.http.post<any>(environment.singInApi, user);
+    return this.http.post<any>(environment.singInApi, user).pipe(
+      take(1)
+    );
   }
 
   loggedIn(): any {

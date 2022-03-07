@@ -9,23 +9,6 @@ export class User {
     ) {
 
     }
-
-    // getUser(): User {
-    //     return new User(
-    //         this.name,
-    //         this.email,
-    //         this.role, 
-    //         this.uuid, 
-    //         this.token,);
-    // }
-
-    // getEmail(): string {
-    //     return this.email;
-    // }
-
-    // getRole(): string {
-    //     return this.role;
-    // }
 }
 
 export interface AuthResponse {
