@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
-import { AuthResponse, User, UserloginRequest, UserloginResponse, UserRegisterReq } from '../models/user';
+import { AuthResponse, User, UserloginRequest, UserloginResponse, UserRegisterReq, UserStorage } from '../models/user';
 import { Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 
@@ -16,14 +16,21 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   registerUser(user: UserRegisterReq): Observable<any> {
-    return this.http.post<any>(environment.singUpApi, user).pipe(
-      take(1)
+    return this.http.post<UserRegisterReq>(environment.singUpApi, user).pipe(
+      take(1),
     );
   }
 
-  loginUser(user: UserloginRequest): Observable<UserloginResponse> {
+  loginUser(user: UserloginRequest): Observable<any> {
     return this.http.post<any>(environment.singInApi, user).pipe(
-      take(1)
+      take(1),
+      map((res: UserloginResponse) => {
+        debugger
+        this.saveLocalStorage(res.user);
+        this.addToken(res.token)
+        return user;
+      }),
+      catchError((err) => {return err})
     );
   }
 
@@ -38,8 +45,20 @@ export class AuthService {
   
 
 
-  public getToken(): any {
+  public getToken(): String | null {
     return localStorage.getItem('token');
+  }
+
+  public getUser(): String | null {
+    return localStorage.getItem('user');
+  }
+
+  private saveLocalStorage(resUser: UserStorage): void {
+    localStorage.setItem('user', JSON.stringify(resUser));
+  }
+
+  public addToken(token: string): void {
+    localStorage.setItem('token', token);
   }
 
   public removeToken(): void {

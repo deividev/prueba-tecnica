@@ -26,6 +26,12 @@ export interface UserloginRequest {
     password: string;
 }
 export interface UserloginResponse {
-        user: User
-        token: string
+    user: User;
+    token: string;
+}
+
+export interface UserStorage {
+    name: string;
+    role: string;
+    email: string;
 }
