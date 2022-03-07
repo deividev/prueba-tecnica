@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { User, UserloginRequest, UserRegisterReq } from '../models/user';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { User, UserloginRequest, UserRegisterReq } from '../models/user';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   registerUser(user: UserRegisterReq): any {
     return this.http.post<any>(environment.singUpApi, user);
@@ -27,8 +28,12 @@ export class AuthService {
   //   return this.http.post<any>(environment., email);
   // }
 
-  // getToken(): any {
-  //   return localStorage.getItem('token');
-  // }
+  getToken(): any {
+    return localStorage.getItem('token');
+  }
+
+  redirectToHome(): void {
+    this.router.navigate(['home']);
+  }
   
 }

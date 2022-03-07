@@ -43,7 +43,7 @@ export class SigninComponent implements OnInit {
           console.log(res);
           this.userService.setUser(res.user, res.token);
           localStorage.setItem('token', res.token);
-          this.router.navigate(['home']);
+          this.authService.redirectToHome();
         },
         (error: Error) => console.log(error)
       )

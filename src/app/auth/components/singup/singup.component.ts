@@ -17,7 +17,7 @@ export class SingupComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-     private router: Router) { 
+    private router: Router) { 
     this.formSingUp = this.createForm();
     this.error = "";
   }
@@ -48,7 +48,7 @@ export class SingupComponent implements OnInit {
       (res: AuthResponse) => {
         console.log(res);
         localStorage.setItem('token', res.token);
-        this.router.navigate(['home']);
+        this.authService.redirectToHome();
       },
       (error: HttpErrorResponse) => {
         this.error = error.error.error
