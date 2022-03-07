@@ -13,6 +13,6 @@ import { NavComponent } from './components/nav/nav.component';
     CommonModule
   ],
   exports: [NavComponent],
-  providers: [UserService]
+  providers: []
 })
 export class SharedModule { }

@@ -49,8 +49,8 @@ export class SingupComponent implements OnInit {
       (res: AuthResponse) => {
         console.log(res);
         localStorage.setItem('token', res.token);
-        let user: User = {...registerUserData, role: 'USER_ROLE', token: res.token}
-        this.userService.setUser(user, res.token);
+        let user: User = {...registerUserData, role: 'USER_ROLE'}
+        //this.userService.setUser(user);
         this.authService.redirectToHome();
       },
       (error: HttpErrorResponse) => {

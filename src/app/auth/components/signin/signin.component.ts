@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserloginRequest, UserloginResponse } from '../../models/user';
+import { User, UserloginRequest, UserloginResponse } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../../shared/services/user.service';
 
@@ -39,9 +39,9 @@ export class SigninComponent implements OnInit {
     this.loginUserReq.password = this.formSingIn.controls['password'].value;
     this.authService.loginUser(this.loginUserReq)
       .subscribe(
-        (res: UserloginResponse) => {
-          console.log(res);
-          // this.userService.setUser(res.user, res.token);
+        (res: User) => {
+          debugger
+          this.userService.setCurrentUser(res);
           // localStorage.setItem('token', res.token);
           this.authService.redirectToHome();
         },

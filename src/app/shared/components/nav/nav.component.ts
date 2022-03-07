@@ -16,7 +16,6 @@ export class NavComponent implements OnInit {
 
   constructor() { 
     
-    debugger
    }
 
   ngOnInit(): void {

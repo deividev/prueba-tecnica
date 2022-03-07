@@ -12,8 +12,11 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   
+  user: User; 
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { 
+    this.user = new User("", "", "", "" )
+  }
 
   registerUser(user: UserRegisterReq): Observable<any> {
     return this.http.post<UserRegisterReq>(environment.singUpApi, user).pipe(
@@ -25,10 +28,11 @@ export class AuthService {
     return this.http.post<any>(environment.singInApi, user).pipe(
       take(1),
       map((res: UserloginResponse) => {
-        debugger
+
         this.saveLocalStorage(res.user);
-        this.addToken(res.token)
-        return user;
+        this.addToken(res.token);
+        this.user = new User(res.user.name, res.user.email, res.user.role, res.user.uuid)
+        return this.user;
       }),
       catchError((err) => {return err})
     );
@@ -49,9 +53,12 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  public getUserService(): User  {
+    return this.user;
+  }  
+
   public getUser(): String  {
     let userStorage: any = localStorage.getItem('user') !== null ? localStorage.getItem('user') : "";
-    debugger
     return JSON.parse(userStorage);
   }
 
