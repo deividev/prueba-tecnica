@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/auth/models/user';
 
 @Component({
   selector: 'app-nav',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  @Input() userObject: any;
+
+  role: string;
+
+  constructor() { 
+    this.role = this.userObject.role;
+    debugger
+   }
 
   ngOnInit(): void {
   }

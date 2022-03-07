@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
+    debugger
     this.isLogin = this.authService.loggedIn();
     this.user = this.userService.getUser();
   }

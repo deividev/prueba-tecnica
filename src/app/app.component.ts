@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'news-aratech';
 
-  constructor() {}
+  constructor(private authService: AuthService) {
+    this.authService.removeToken();
+  }
 
   ngOnInit() {
   }
