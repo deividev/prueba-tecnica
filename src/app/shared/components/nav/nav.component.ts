@@ -10,14 +10,23 @@ export class NavComponent implements OnInit {
 
   @Input() userObject: any;
 
-  role: string;
+  role: string = "";
+  name: string = "";
+  email: string = "";
 
   constructor() { 
-    this.role = this.userObject.role;
+    
     debugger
    }
 
   ngOnInit(): void {
+    this.initData()
+  }
+
+  initData(): void{
+    this.role = this.userObject.role;
+    this.name = this.userObject.name;
+    this.email = this.userObject.email;
   }
 
 }

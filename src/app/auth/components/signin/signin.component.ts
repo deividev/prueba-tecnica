@@ -41,8 +41,8 @@ export class SigninComponent implements OnInit {
       .subscribe(
         (res: UserloginResponse) => {
           console.log(res);
-          this.userService.setUser(res.user, res.token);
-          localStorage.setItem('token', res.token);
+          // this.userService.setUser(res.user, res.token);
+          // localStorage.setItem('token', res.token);
           this.authService.redirectToHome();
         },
         (error: Error) => console.log(error)

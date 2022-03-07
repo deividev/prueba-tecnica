@@ -49,12 +49,15 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  public getUser(): String | null {
-    return localStorage.getItem('user');
+  public getUser(): String  {
+    let userStorage: any = localStorage.getItem('user') !== null ? localStorage.getItem('user') : "";
+    debugger
+    return JSON.parse(userStorage);
   }
 
   private saveLocalStorage(resUser: UserStorage): void {
-    localStorage.setItem('user', JSON.stringify(resUser));
+    const userStorage: UserStorage = {name: resUser.name, role: resUser.role}
+    localStorage.setItem('user', JSON.stringify(userStorage));
   }
 
   public addToken(token: string): void {

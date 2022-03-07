@@ -33,5 +33,5 @@ export interface UserloginResponse {
 export interface UserStorage {
     name: string;
     role: string;
-    email: string;
+    email?: string;
 }

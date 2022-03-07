@@ -11,14 +11,14 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class HomeComponent implements OnInit {
 
   isLogin: boolean = false;
-  user: User | null = null;
+  user: String | null = null;
   
   constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
     debugger
     this.isLogin = this.authService.loggedIn();
-    this.user = this.userService.getUser();
+    this.user = this.authService.getUser();
   }
 
 }
