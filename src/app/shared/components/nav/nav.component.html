@@ -1,8 +1,10 @@
-<header >
-    <nav class="flex">
-        <p>{{this.name}}</p>
-        <p>{{this.email}}</p>
-        <p>{{this.role}}</p>
-        
+<header class="py-2 px-6 bg-blue-600 text-white">
+    <nav class="flex justify-between items-center">
+        <h3 class="font-bold">News Aratech</h3>
+        <div class="flex items-center"> 
+            <p class="mx-2">{{this.name}}</p>
+            <button class="m-1 px-4 py-1 rounded-md border-2 border-blue-500" *ngIf="!isAdmin" type="button">Activar Modo Administrador</button>
+            <a *ngIf="isAdmin" routerLink="">Dashboard</a>
+        </div>
     </nav>
 </header>

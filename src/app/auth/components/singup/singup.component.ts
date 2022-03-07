@@ -1,8 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/shared/services/user.service';
 import { AuthResponse, User, UserRegisterReq } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
 
@@ -17,8 +15,7 @@ export class SingupComponent implements OnInit {
   error: string;
 
   constructor(
-    private authService: AuthService,
-    private userService: UserService,) { 
+    private authService: AuthService) { 
     this.formSingUp = this.createForm();
     this.error = "";
   }
@@ -50,7 +47,7 @@ export class SingupComponent implements OnInit {
         console.log(res);
         localStorage.setItem('token', res.token);
         let user: User = {...registerUserData, role: 'USER_ROLE'}
-        //this.userService.setUser(user);
+        this.authService.setCurrentUser(user);
         this.authService.redirectToHome();
       },
       (error: HttpErrorResponse) => {

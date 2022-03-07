@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User, UserloginRequest, UserloginResponse } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-signin',
@@ -15,10 +14,7 @@ export class SigninComponent implements OnInit {
   formSingIn: FormGroup;
   loginUserReq: UserloginRequest;
   constructor(
-    private userService: UserService,
-    private authService: AuthService,
-    private router: Router
-    ) {
+    private authService: AuthService) {
       this.formSingIn = this.createForm();
       this.loginUserReq = {email: "", password: ""};
      }
@@ -40,9 +36,6 @@ export class SigninComponent implements OnInit {
     this.authService.loginUser(this.loginUserReq)
       .subscribe(
         (res: User) => {
-          debugger
-          this.userService.setCurrentUser(res);
-          // localStorage.setItem('token', res.token);
           this.authService.redirectToHome();
         },
         (error: Error) => console.log(error)

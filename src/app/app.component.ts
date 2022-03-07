@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
   title = 'news-aratech';
 
   constructor(private authService: AuthService) {
-    this.authService.removeToken();
+    //this.authService.removeToken();
   }
 
   ngOnInit() {

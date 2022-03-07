@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from 'src/app/auth/models/user';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,19 +14,20 @@ export class NavComponent implements OnInit {
   role: string = "";
   name: string = "";
   email: string = "";
+  isAdmin: boolean = false;
 
-  constructor() { 
+  constructor(private authService: AuthService) { 
     
    }
 
   ngOnInit(): void {
-    this.initData()
+    this.initData();
+    this.isAdmin = this.authService.checkAdmin();
   }
 
   initData(): void{
-    this.role = this.userObject.role;
-    this.name = this.userObject.name;
-    this.email = this.userObject.email;
+    this.role = this.userObject.role ? this.userObject.role : "role";
+    this.name = this.userObject.name ? this.userObject.name : "name";
   }
 
 }

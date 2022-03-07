@@ -1,21 +1,40 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
-import { AuthResponse, User, UserloginRequest, UserloginResponse, UserRegisterReq, UserStorage } from '../models/user';
+import { User, UserloginRequest, UserloginResponse, UserRegisterReq } from '../models/user';
 import { Router } from '@angular/router';
 import { catchError, map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
-  user: User; 
 
+  private currenUserSubject: BehaviorSubject<User> = new BehaviorSubject({} as User);
+
+  user: User; 
+  role: string = "";
   constructor(private http: HttpClient, private router: Router) { 
     this.user = new User("", "", "", "" )
+  }
+
+  getCurrentUser(): Observable<any> {
+    return this.currenUserSubject.asObservable();
+  }
+  
+  setCurrentUser(currentUser: any): void {
+    this.currenUserSubject.next(currentUser);
+  }
+
+  getRole(): string {
+   this.role = this.currenUserSubject.getValue().role;
+    return this.role;
+  }
+
+  checkAdmin(): boolean {
+    return this.role === "ADMIN_ROLE" ? true : false;
   }
 
   registerUser(user: UserRegisterReq): Observable<any> {
@@ -28,10 +47,10 @@ export class AuthService {
     return this.http.post<any>(environment.singInApi, user).pipe(
       take(1),
       map((res: UserloginResponse) => {
-
-        this.saveLocalStorage(res.user);
-        this.addToken(res.token);
-        this.user = new User(res.user.name, res.user.email, res.user.role, res.user.uuid)
+        if (res?.user && res?.token) {
+          this.setCurrentUser(res.user);
+          this.addToken(res.token); 
+        }
         return this.user;
       }),
       catchError((err) => {return err})
@@ -42,29 +61,8 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  // resetPasswordUser(email): any {
-  //   return this.http.post<any>(environment., email);
-  // }
-
-  
-
-
   public getToken(): String | null {
     return localStorage.getItem('token');
-  }
-
-  public getUserService(): User  {
-    return this.user;
-  }  
-
-  public getUser(): String  {
-    let userStorage: any = localStorage.getItem('user') !== null ? localStorage.getItem('user') : "";
-    return JSON.parse(userStorage);
-  }
-
-  private saveLocalStorage(resUser: UserStorage): void {
-    const userStorage: UserStorage = {name: resUser.name, role: resUser.role}
-    localStorage.setItem('user', JSON.stringify(userStorage));
   }
 
   public addToken(token: string): void {
