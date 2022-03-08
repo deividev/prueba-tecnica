@@ -73,7 +73,6 @@ export class AuthService {
   }
 
   loggedIn(): boolean {
-    debugger
     let isLogin = localStorage.getItem('token') ? true : false;
     return isLogin;
   }

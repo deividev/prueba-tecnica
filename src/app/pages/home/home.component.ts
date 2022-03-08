@@ -20,8 +20,6 @@ export class HomeComponent implements OnInit {
     this.getListNews()
     this.getListNewsObservable();
     this.authService.getCurrentUser().subscribe(res => {
-      debugger
-
     });
   }
 

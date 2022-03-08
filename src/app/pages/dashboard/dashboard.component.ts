@@ -35,7 +35,6 @@ export class DashboardComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    debugger
     this.literalLabelTitle = global.labelTitleNews;
     this.literalLabelDescription = global.labelDescriptionNews;
     this.literalBtnCreate =  global.btnCreate;
@@ -73,7 +72,6 @@ export class DashboardComponent implements OnInit {
   getListNewsObservable(): void {
     this.listNews$ = this.newsService.getListNews$();
     this.listNews$.subscribe(news => {
-      debugger
       this.listNews = news;
     });
   }
@@ -84,14 +82,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setNewsSelected(news: News): void {
-    debugger
-    if (news.isChecked) {
-      
-    }
-    // this.newsService.checkPreviousNews(news);
-    
     this.newsSelected = news;
-    debugger
     this.formNews.controls['title'].setValue(news.title);
     this.formNews.controls['description'].setValue(news.description);
     if (!this.newsSelected.isChecked) {

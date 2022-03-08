@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { User, UserloginRequest, UserloginResponse } from '../../models/user';
+import { User, UserloginRequest } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
+import { global } from 'src/constant';
 
 @Component({
   selector: 'app-signin',
@@ -13,6 +13,13 @@ export class SigninComponent implements OnInit {
 
   formSingIn: FormGroup;
   loginUserReq: UserloginRequest;
+  literalTitle: string = "";
+  literalLabelEmail: string = "";
+  literalLabelPass: string = "";
+  literalMessgQuestion: string = "";
+  literalLinkSignUp: string = "";
+  literalBtnLogin: string = "";
+
   constructor(
     private authService: AuthService) {
       this.formSingIn = this.createForm();
@@ -20,12 +27,18 @@ export class SigninComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.literalTitle = global.titleSignIn;
+    this.literalLabelEmail = global.labelEmail;
+    this.literalLabelPass = global.labelPassword;
+    this.literalMessgQuestion = global.messQuestion;
+    this.literalLinkSignUp = global.linkSignup;
+    this.literalBtnLogin = global.btnLogin;
   }
 
   createForm(): FormGroup {
     return new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(9)]),
+      password: new FormControl('', [Validators.required]),
     });
   }
 
@@ -41,6 +54,9 @@ export class SigninComponent implements OnInit {
         },
         (error: Error) => console.log(error)
       )
+  }
+  validateForm(): boolean {
+    return this.formSingIn.invalid ? true : false;
   }
 
 }
