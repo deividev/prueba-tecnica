@@ -22,7 +22,7 @@ export class AuthService {
     return this.currenUserSubject.asObservable();
   }
   
-  setCurrentUser(currentUser: any): void {
+  setCurrentUser(currentUser: User): void {
     this.currenUserSubject.next(currentUser);
   }
 
@@ -73,11 +73,18 @@ export class AuthService {
   }
 
   loggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    debugger
+    let isLogin = localStorage.getItem('token') ? true : false;
+    return isLogin;
   }
 
   logout(): void {
     localStorage.removeItem('token');
+    this.redirectToSingIn();
+  }
+
+  cleanCurrentUser(): void {
+    this.currenUserSubject.complete();
   }
 
   public getToken(): String | null {

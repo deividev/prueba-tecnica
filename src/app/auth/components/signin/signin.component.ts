@@ -36,6 +36,7 @@ export class SigninComponent implements OnInit {
     this.authService.loginUser(this.loginUserReq)
       .subscribe(
         (res: User) => {
+          this.authService.setCurrentUser(res);
           this.authService.redirectToHome();
         },
         (error: Error) => console.log(error)

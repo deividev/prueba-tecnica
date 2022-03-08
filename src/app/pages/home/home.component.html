@@ -1,11 +1,10 @@
 <section class="">
-    <app-nav (isDashboardEvent)="setViewDashboard($event)" [userObject]="user" *ngIf="isLogin"></app-nav>
+  
     <main  class="py-4 px-12">
-       <app-dashboard [listNews]="listNews" *ngIf="isDashboard"></app-dashboard>
-       <div class="flex flex-col  items-center justify-center mx-12" *ngIf="!isDashboard">
+       <div class="flex flex-col  items-center justify-center mx-12" >
         <h2 class="text-3xl font-bold">News</h2>
         <div class="grid gap-4 grid-cols-4 auto-rows-fr pt-8" >
-            <app-card-news [news]="news" *ngFor="let news of listNews"></app-card-news>  
+            <app-card-news [isClickSelected]="false" [news]="news" *ngFor="let news of listNews"></app-card-news>  
         </div>
        </div>
     </main>

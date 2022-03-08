@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/services/auth.service';
 import { JwtInterceptor } from './jwt.interceptor';
+import { NavComponent } from './shared/components/nav/nav.component';
 import { NewsService } from './shared/services/news.service';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

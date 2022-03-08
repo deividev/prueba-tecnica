@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { global } from 'src/constant';
 
@@ -10,6 +11,7 @@ import { global } from 'src/constant';
 export class NavComponent implements OnInit {
 
   @Input() userObject: any;
+  @Input() isUserAdmin: boolean = false;
   @Output() isDashboardEvent: EventEmitter<boolean> = new EventEmitter(false);
 
 
@@ -25,7 +27,7 @@ export class NavComponent implements OnInit {
   isDashboard: boolean = false;
   error: string = "";
 
-  constructor(private authService: AuthService) { 
+  constructor(private authService: AuthService, private router: Router) { 
     
    }
 
@@ -36,7 +38,6 @@ export class NavComponent implements OnInit {
     this.literalBtnNews = global.btnNews;
     this.nameCompany = global.nameCompany;
     this.initData();
-    this.isAdmin = this.authService.checkAdmin();
   }
 
   initData(): void{
@@ -45,8 +46,6 @@ export class NavComponent implements OnInit {
 
   changeRoleUser(): void {
     this.authService.postChangeRole().subscribe(res => {
-      debugger
-      this.isAdmin = this.authService.checkAdmin();
       this.isDashboard = !this.isDashboard;
       this.isDashboardEvent.emit(this.isDashboard);
     },
@@ -56,10 +55,16 @@ export class NavComponent implements OnInit {
   }
 
   viewDashboard(): void {
-    debugger
-    this.isDashboard = !this.isDashboard;
+    this.isDashboard = true;
     this.isDashboardEvent.emit(this.isDashboard);
+    this.router.navigate(['dashboard']);
   } 
+
+  viewNews(): void {
+    this.isDashboard = false;
+    this.isDashboardEvent.emit(this.isDashboard);
+    this.router.navigate(['home']);
+  }
 
   logout(): void{
     this.authService.logout();

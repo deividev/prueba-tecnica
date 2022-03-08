@@ -1,18 +1,18 @@
-<header class="py-2 px-12 bg-gray-900 text-white">
+<header class="mb-2 py-2 px-12 bg-gray-900 text-white">
     <nav class="flex justify-between items-center">
         <a routerLink="home" class="text-2xl font-bold">{{nameCompany}}</a>
         <div class="flex items-center"> 
-            <p class="mx-2 capitalize">{{this.name}}</p>
+            <p class="mx-2 text-xl capitalize">{{this.name}}</p>
             <button (click)="changeRoleUser()" class="mx-2 bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border-2
-                border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer" *ngIf="!isAdmin" type="button">
+                border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer" *ngIf="!isUserAdmin" type="button">
                 {{literalBtnRoleAdmin}}
             </button>
-            <button (click)="viewDashboard()" class="mx-2 bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border-2
-                border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer" *ngIf="isAdmin && !isDashboard" type="button" >
+            <a (click)="viewDashboard()" class="mx-2 bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border-2
+                border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer" *ngIf="isUserAdmin"  >
                 {{literalBtnDashboard}}
-            </button>
-            <button (click)="viewDashboard()" class="mx-2 bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border-2
-                border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer" *ngIf="isAdmin && isDashboard" type="button" >
+            </a>
+            <button (click)="viewNews()" class="mx-2 bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border-2
+                border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer" *ngIf="isDashboard" type="button" >
                 {{literalBtnNews}}
             </button>
             <button (click)="logout()" class="mx-2 bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border-2

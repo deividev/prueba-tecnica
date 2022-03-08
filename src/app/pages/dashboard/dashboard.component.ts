@@ -1,9 +1,11 @@
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CreateNews, News } from '../../models/news';
-import { NewsService } from '../../services/news.service';
+import { CreateNews, News } from '../../shared/models/news';
+import { NewsService } from '../../shared/services/news.service';
 import { global } from 'src/constant';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +14,9 @@ import { global } from 'src/constant';
 })
 export class DashboardComponent implements OnInit {
 
-  @Input() listNews: any;
+
+  listNews: any[] = [];
+  listNews$!: Observable<News[]>;
 
   news!: CreateNews;
   formNews: FormGroup;
@@ -27,15 +31,18 @@ export class DashboardComponent implements OnInit {
   literalBtnDelete: string = "";
   constructor(private newsService: NewsService) {
     this.formNews = this.createForm();
+    
    }
 
   ngOnInit(): void {
+    debugger
     this.literalLabelTitle = global.labelTitleNews;
     this.literalLabelDescription = global.labelDescriptionNews;
     this.literalBtnCreate =  global.btnCreate;
     this.literalBtnUpdate = global.btnUpdate;
     this.literalBtnDelete = global.btnDelete;
-    
+    this.getListNews()
+    this.getListNewsObservable();
   }
 
   createForm(): FormGroup {
@@ -61,6 +68,19 @@ export class DashboardComponent implements OnInit {
         this.error = error;
       }
     );
+  }
+
+  getListNewsObservable(): void {
+    this.listNews$ = this.newsService.getListNews$();
+    this.listNews$.subscribe(news => {
+      debugger
+      this.listNews = news;
+    });
+  }
+
+  getListNews(): void {
+    this.newsService.getListNews().subscribe(res=> {
+    })
   }
 
   setNewsSelected(news: News): void {

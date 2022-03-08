@@ -11,25 +11,18 @@ import { NewsService } from 'src/app/shared/services/news.service';
 })
 export class HomeComponent implements OnInit {
 
-  isLogin: boolean = false;
-  user: Observable<any> = new Observable();
-  isDashboard: boolean = false;
+
   listNews: News[] = [];
   listNews$!: Observable<News[]>;
   constructor(private authService: AuthService, private newsService: NewsService) { }
 
   ngOnInit(): void {
-    this.isLogin = this.authService.loggedIn();
-    this.authService.getCurrentUser().subscribe(res => {
-      this.user = res;
-    });
     this.getListNews()
     this.getListNewsObservable();
-  }
+    this.authService.getCurrentUser().subscribe(res => {
+      debugger
 
-  setViewDashboard($event: boolean): void {
-    this.isDashboard = $event;
-    this.newsService.setViewDashboard(this.isDashboard);
+    });
   }
 
   getListNewsObservable(): void {

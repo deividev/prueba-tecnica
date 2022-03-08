@@ -12,6 +12,7 @@ export class CardNewsComponent implements OnInit {
 
 
   @Input() news: any;
+  @Input() isClickSelected: boolean = false;
 
   @Output() newsCheked: EventEmitter<News> = new EventEmitter(false);
 
@@ -28,11 +29,21 @@ export class CardNewsComponent implements OnInit {
   }
 
   setChecked(news: News): void {
-    news.isChecked = !news.isChecked;
-    if (news.isChecked) {
-      this.newsService.setIsNotCheckedNewsLessSelected(news.uuid);    
+    if (this.isClickSelected) {
+      news.isChecked = !news.isChecked;
+      if (news.isChecked) {
+        const checkBoxId: any = document.getElementById(news.uuid);
+        checkBoxId.checked = true;
+
+        this.newsService.setIsNotCheckedNewsLessSelected(news.uuid);    
+      }
+      else {
+        const checkBoxId: any = document.getElementById(news.uuid);
+        checkBoxId.checked = false;
+      }
+      this.newsCheked.emit(this.news);
     }
-    this.newsCheked.emit(this.news);
   }
+  
 
 }

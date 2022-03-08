@@ -19,7 +19,6 @@ export class NewsService {
   constructor(private http: HttpClient) { }
 
   setViewDashboard(isView: boolean): void {
-    debugger
     this.isViewDashboard = isView;
   }
 
@@ -53,38 +52,15 @@ export class NewsService {
         return err.error.error}),
     )
   }
-
-  // setNewsSelected(news: News): void {
-  //   debugger
-  //   this.newsSelected$.next(news);
-  // }
-  // getNewsAfterSelected$(): Observable<News> {
-  //   debugger
-  //   return this.newsSelected$.asObservable();
-  // }
-
-  // checkPreviousNews(news: News): void {
-  //   debugger
-  //   let newsAfterSelected!: News;
-  //   this.getNewsAfterSelected$().subscribe(res => {newsAfterSelected = res});
-  //   if ( newsAfterSelected.uuid !== news.uuid) {
-  //     debugger
-  //     let listNewsIsNotChecked = this.setIsNotCheckedNews(this.getListNews$);
-  //     this.setCurrentListNewsSubject(listNewsIsNotChecked);
-  //   }
-  // }
-
+  
   setIsNotCheckedNews(list: any): any {
-    debugger
     list.news.map((news: News) => {
       news.isChecked = false;
     });
     return list.news;
   }
   setIsNotCheckedNewsLessSelected(uuid: string): any {
-    debugger
     this.listNews.map((news: News) => {
-      debugger
       if (uuid !== news.uuid) {
         const checkBoxId: any = document.getElementById(news.uuid);
         checkBoxId.checked = false;
@@ -138,13 +114,11 @@ export class NewsService {
     return this.http.put<any>(urlDeleteNews, news).pipe(
       take(1),
       map((res: any) => {
-        debugger
         this.filterListNewsDelete(uuidNews);
         this.setCurrentNewsSubject(res.news);
         return res.news;
       }),
       catchError((err) => {
-        debugger
         return err.error.error}),
     )
   }
