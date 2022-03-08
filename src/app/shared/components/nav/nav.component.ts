@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/auth/models/user';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { NewsService } from '../../services/news.service';
 
 @Component({
   selector: 'app-nav',
@@ -19,8 +17,9 @@ export class NavComponent implements OnInit {
   email: string = "";
   isAdmin: boolean = false;
   isDashboard: boolean = false;
+  error: string = "";
 
-  constructor(private authService: AuthService, private newsService: NewsService) { 
+  constructor(private authService: AuthService) { 
     
    }
 
@@ -35,12 +34,19 @@ export class NavComponent implements OnInit {
 
   changeRoleUser(): void {
     this.authService.postChangeRole().subscribe(res => {
+      debugger
       this.isAdmin = this.authService.checkAdmin();
+      this.isDashboard = !this.isDashboard;
+      this.isDashboardEvent.emit(this.isDashboard);
+    },
+    (error: any) => {
+      this.error = error;
     })
   }
 
   viewDashboard(): void {
-    this.isDashboard = !this.isDashboard
+    debugger
+    this.isDashboard = !this.isDashboard;
     this.isDashboardEvent.emit(this.isDashboard);
   } 
 

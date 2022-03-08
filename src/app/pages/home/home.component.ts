@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
 
   setViewDashboard($event: boolean): void {
     this.isDashboard = $event;
+    this.newsService.setViewDashboard(this.isDashboard);
   }
 
   getListNewsObservable(): void {

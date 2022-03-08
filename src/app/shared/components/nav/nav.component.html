@@ -1,11 +1,12 @@
-<header class="py-2 px-12 bg-blue-600 text-white">
+<header class="py-2 px-12 bg-gray-900 text-white">
     <nav class="flex justify-between items-center">
-        <h3 class="font-bold">Aratech</h3>
+        <a routerLink="home" class="text-2xl font-bold">Aratech</a>
         <div class="flex items-center"> 
             <p class="mx-2">{{this.name}}</p>
-            <button (click)="changeRoleUser()" class="m-1 px-4 py-1 rounded-md border-2 border-blue-500" *ngIf="!isAdmin" type="button">Activar Modo Administrador</button>
-            <button (click)="viewDashboard()" class="m-1 px-4 py-1 rounded-md border-2 border-blue-500" *ngIf="isAdmin" type="button" >Dashboard</button>
-            <button (click)="logout()" class="m-1 px-4 py-1 rounded-md border-2 border-blue-500"  type="button" >Logout</button>
+            <button (click)="changeRoleUser()" class="m-1 px-4 py-1 rounded-md border-2 border-blue-500 cursor-pointer" *ngIf="!isAdmin" type="button">Activar Modo Administrador</button>
+            <button (click)="viewDashboard()" class="m-1 px-4 py-1 rounded-md border-2 border-blue-500 cursor-pointer" *ngIf="isAdmin && !isDashboard" type="button" >Dashboard</button>
+            <button (click)="viewDashboard()" class="m-1 px-4 py-1 rounded-md border-2 border-blue-500 cursor-pointer" *ngIf="isAdmin && isDashboard" type="button" >News</button>
+            <button (click)="logout()" class="bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-1 px-5 border border-blue-500 hover:border-transparent rounded-md"  type="button" >Logout</button>
         </div>
     </nav>
-</header>
+</header>   

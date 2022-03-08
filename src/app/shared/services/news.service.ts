@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class NewsService {
 
   isViewDashboard: boolean = false;
+  newsSelected$ = new Subject<News>();
 
   private currentListNews$ = new Subject<News[]>();
   listNews: News[] = [];
@@ -18,6 +19,7 @@ export class NewsService {
   constructor(private http: HttpClient) { }
 
   setViewDashboard(isView: boolean): void {
+    debugger
     this.isViewDashboard = isView;
   }
 
@@ -43,11 +45,44 @@ export class NewsService {
     return this.http.get<any>(environment.allNewsApi).pipe(
       take(1),
       map((list: any) => {
-        this.setCurrentListNewsSubject(list.news);
+        list = this.setIsNotCheckedNews(list);
+        this.setCurrentListNewsSubject(list);
         return list
-      })
+      }),
+      catchError((err) => {
+        return err.error.error}),
     )
   }
+
+  // setNewsSelected(news: News): void {
+  //   debugger
+  //   this.newsSelected$.next(news);
+  // }
+  // getNewsAfterSelected$(): Observable<News> {
+  //   debugger
+  //   return this.newsSelected$.asObservable();
+  // }
+
+  // checkPreviousNews(news: News): void {
+  //   debugger
+  //   let newsAfterSelected!: News;
+  //   this.getNewsAfterSelected$().subscribe(res => {newsAfterSelected = res});
+  //   if ( newsAfterSelected.uuid !== news.uuid) {
+  //     debugger
+  //     let listNewsIsNotChecked = this.setIsNotCheckedNews(this.getListNews$);
+  //     this.setCurrentListNewsSubject(listNewsIsNotChecked);
+  //   }
+  // }
+
+  setIsNotCheckedNews(list: any): any {
+    debugger
+    list.news.map((news: News) => {
+      news.isChecked = false;
+    });
+    return list.news;
+  }
+
+  
 
   setListNews(list: News[]): void {
     this.listNews = list;
@@ -59,7 +94,9 @@ export class NewsService {
       map((news: any) => {
         this.setCurrentNewsSubject(news.news);
         return news
-      })
+      }),
+      catchError((err) => {
+        return err.error.error}),
     )
   }
 
@@ -70,13 +107,33 @@ export class NewsService {
       map((res: any) => {
         this.filterListNewsDelete(res.uuid);
         return res.uuid
-      })
+      }),
+      catchError((err) => {
+        return err.error.error}),
     )
   }
 
   filterListNewsDelete(uuid: string): void {
     const listNewsClean: News[] =this.listNews.filter(news => news.uuid !== uuid)
     this.setCurrentListNewsSubject(listNewsClean);
+  }
+
+
+  
+  updateNews(news: News ,uuidNews: string): Observable<any> {
+    const urlDeleteNews = `${environment.allNewsApi}/${uuidNews}`;
+    return this.http.put<any>(urlDeleteNews, news).pipe(
+      take(1),
+      map((res: any) => {
+        debugger
+        this.filterListNewsDelete(uuidNews);
+        this.setCurrentNewsSubject(res.news);
+        return res.news;
+      }),
+      catchError((err) => {
+        debugger
+        return err.error.error}),
+    )
   }
 
 

@@ -29,14 +29,18 @@
                   </textarea>
             </div>
             <div class="flex justify-center">
-              <button (click)="createNews()" type="checkbox" class="m-1">Create</button>
-              <button type="checkbox" class="m-1">Update</button>
-              <button (click)="deleteNewsSelected()" type="checkbox" class="m-1">Delete</button>
+              <button (click)="createNews()" type="checkbox" class="m-1 cursor-pointer">Create</button>
+              <button (click)="updateNewsSelected()" type="checkbox" class="m-1 cursor-pointer">Update</button>
+              <button (click)="deleteNewsSelected()" type="checkbox" class="m-1 cursor-pointer">Delete</button>
           </div>
           </form>
     </div>
     <div class="flex flex-col items-center justify-center mx-12 w-3/4" >
         <h2 class="text-3xl font-bold">News</h2>
+
+        <div class="border-2 border-red-500" *ngIf="error">
+          <p class="text-red-500">{{error}}</p>
+        </div>
         <div class="grid gap-4 grid-cols-4 auto-rows-min pt-8" >
             <app-card-news (newsCheked)="setNewsSelected($event)" [news]="news" *ngFor="let news of listNews"></app-card-news>  
         </div>

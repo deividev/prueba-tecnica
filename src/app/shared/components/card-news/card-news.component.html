@@ -1,5 +1,9 @@
-<div [ngClass]="{'border-green-700': isChecked}" class="drop-shadow-md rounded-md border p-4 border-gray-300 min-h-min">
-    <h4 class="text-xl font-bold">{{news.title}}</h4>
-    <p class="flex flex-wrap">{{news.description}}</p>
-    <button (click)="setChecked(news)" type="checkbox" >Select</button>    
+<div [ngClass]="{'border-blue-700': isChecked, 'border-gray-300': !isChecked}" class="drop-shadow-md rounded-md border p-4 border-gray-300 min-h-min">
+    <h4 class="text-xl font-bold mb-2">{{news.title}}</h4>
+    <img class="mb-2 rounded-md drop-shadow-md" src="https://picsum.photos/600/300?random=2"/>
+    <p class="flex flex-wrap mb-4">{{news.description}}</p>
+    <div *ngIf="isAdmin && isDashboard" class="flex items-center justify-end">
+        <Label class="mr-2" for="select" >Select</Label>
+        <input name="select" (click)="setChecked(news)" type="checkbox" class=" checked:bg-blue-500 ..." />   
+    </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { CreateNews, News } from '../../models/news';
 import { NewsService } from '../../services/news.service';
 
@@ -16,6 +17,8 @@ export class DashboardComponent implements OnInit {
   formNews: FormGroup;
 
   newsSelected!: News;
+  error: string = "";
+  afterNewsSelected$!: Observable<News>;
 
   constructor(private newsService: NewsService) {
     this.formNews = this.createForm();
@@ -38,19 +41,55 @@ export class DashboardComponent implements OnInit {
       title: this.formNews.controls['title'].value,
       description: this.formNews.controls['description'].value,
       newsUuid: generateId(),
+      isChecked: false,
     }
-    this.newsService.postCreateNews(this.news).subscribe(news => {
-    });
+    this.newsService.postCreateNews(this.news).subscribe(
+      (res) => {
+        this.formNews.reset();
+      },
+      (error: string) => {
+        this.error = error;
+      }
+    );
   }
 
   setNewsSelected(news: News): void {
+    if (news.isChecked) {
+      
+    }
+    // this.newsService.checkPreviousNews(news);
+    
     this.newsSelected = news;
+    debugger
     this.formNews.controls['title'].setValue(news.title);
     this.formNews.controls['description'].setValue(news.description);
+    if (!this.newsSelected.isChecked) {
+      this.formNews.reset();
+    }
   }
 
   deleteNewsSelected(): void {
-    this.newsService.deleteNews(this.newsSelected.uuid).subscribe();
+    this.newsService.deleteNews(this.newsSelected.uuid).subscribe(
+      (res) => {
+        this.formNews.reset();
+      },
+      (error: string) => {
+        this.error = error;
+      }
+    );
+  }
+
+  updateNewsSelected(): void {
+    this.newsSelected.title = this.formNews.controls['title'].value;
+    this.newsSelected.description =  this.formNews.controls['description'].value;
+    this.newsService.updateNews(this.newsSelected, this.newsSelected.uuid).subscribe(
+      (res) => {
+        this.formNews.reset();
+      },
+      (error: string) => {
+        this.error = error;
+      }
+    );
   }
 
 }
