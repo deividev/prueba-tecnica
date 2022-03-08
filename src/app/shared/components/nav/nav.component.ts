@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { global } from 'src/constant';
 
 @Component({
   selector: 'app-nav',
@@ -14,7 +15,12 @@ export class NavComponent implements OnInit {
 
   role: string = "";
   name: string = "";
+  nameCompany: string = "";
   email: string = "";
+  literalBtnRoleAdmin: string = "";
+  literalBtnLogout: string = "";
+  literalBtnDashboard: string = "";
+  literalBtnNews: string = "";
   isAdmin: boolean = false;
   isDashboard: boolean = false;
   error: string = "";
@@ -24,6 +30,11 @@ export class NavComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.literalBtnRoleAdmin = global.btnRoleAdmin;
+    this.literalBtnLogout = global.btnLogout;
+    this.literalBtnDashboard = global.btnDashboard;
+    this.literalBtnNews = global.btnNews;
+    this.nameCompany = global.nameCompany;
     this.initData();
     this.isAdmin = this.authService.checkAdmin();
   }

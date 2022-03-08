@@ -23,20 +23,15 @@ export class CardNewsComponent implements OnInit {
   constructor(private authService: AuthService, private newsService: NewsService) { }
 
   ngOnInit(): void {
-    debugger
-    this.news
     this.isAdmin = this.authService.checkAdmin();
     this.isDashboard = this.newsService.getViewDashboard();
   }
 
   setChecked(news: News): void {
-    debugger
+    news.isChecked = !news.isChecked;
     if (news.isChecked) {
-      news.isChecked = !news.isChecked;
-      this.isChecked = news.isChecked;
+      this.newsService.setIsNotCheckedNewsLessSelected(news.uuid);    
     }
-    
-    
     this.newsCheked.emit(this.news);
   }
 

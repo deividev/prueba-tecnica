@@ -81,6 +81,19 @@ export class NewsService {
     });
     return list.news;
   }
+  setIsNotCheckedNewsLessSelected(uuid: string): any {
+    debugger
+    this.listNews.map((news: News) => {
+      debugger
+      if (uuid !== news.uuid) {
+        const checkBoxId: any = document.getElementById(news.uuid);
+        checkBoxId.checked = false;
+        news.isChecked = false;
+      }
+      
+    });
+    return this.listNews;
+  }
 
   
 

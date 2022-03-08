@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CreateNews, News } from '../../models/news';
 import { NewsService } from '../../services/news.service';
+import { global } from 'src/constant';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,12 +20,21 @@ export class DashboardComponent implements OnInit {
   newsSelected!: News;
   error: string = "";
   afterNewsSelected$!: Observable<News>;
-
+  literalLabelTitle: string = "";
+  literalLabelDescription: string = "";
+  literalBtnCreate: string = "";
+  literalBtnUpdate: string = "";
+  literalBtnDelete: string = "";
   constructor(private newsService: NewsService) {
     this.formNews = this.createForm();
    }
 
   ngOnInit(): void {
+    this.literalLabelTitle = global.labelTitleNews;
+    this.literalLabelDescription = global.labelDescriptionNews;
+    this.literalBtnCreate =  global.btnCreate;
+    this.literalBtnUpdate = global.btnUpdate;
+    this.literalBtnDelete = global.btnDelete;
     
   }
 
@@ -54,6 +64,7 @@ export class DashboardComponent implements OnInit {
   }
 
   setNewsSelected(news: News): void {
+    debugger
     if (news.isChecked) {
       
     }
