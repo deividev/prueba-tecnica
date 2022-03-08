@@ -50,8 +50,8 @@ export class SingupComponent implements OnInit {
         this.authService.setCurrentUser(user);
         this.authService.redirectToHome();
       },
-      (error: HttpErrorResponse) => {
-        this.error = error.error.error
+      (error: any) => {
+        this.error = error;
       }
     );
   }

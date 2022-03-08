@@ -14,10 +14,8 @@ export class AuthService {
 
   private currenUserSubject: BehaviorSubject<User> = new BehaviorSubject({} as User);
 
-  user: User; 
   role: string = "";
   constructor(private http: HttpClient, private router: Router) { 
-    this.user = new User("", "", "", "" )
   }
 
   getCurrentUser(): Observable<any> {
@@ -33,13 +31,30 @@ export class AuthService {
     return this.role;
   }
 
+  postChangeRole(): Observable<any> {
+    const urlChangeRoleUser = environment.changeRoleApi + this.currenUserSubject.value.uuid;
+    return this.http.post<any>(urlChangeRoleUser, {}).pipe(
+      take(1),
+      map((res: UserloginResponse) => {
+        if (res?.user) {
+          this.setCurrentUser(res.user);
+        }
+        return res?.user;
+      }),
+      catchError((err) => {return err})
+    );
+  }
+
   checkAdmin(): boolean {
+    this.role = this.getRole();
     return this.role === "ADMIN_ROLE" ? true : false;
   }
 
   registerUser(user: UserRegisterReq): Observable<any> {
     return this.http.post<UserRegisterReq>(environment.singUpApi, user).pipe(
       take(1),
+      catchError((err) => {
+        return err.error.error})
     );
   }
 
@@ -51,14 +66,18 @@ export class AuthService {
           this.setCurrentUser(res.user);
           this.addToken(res.token); 
         }
-        return this.user;
+        return res?.user;
       }),
-      catchError((err) => {return err})
+      catchError((err) => {return err.error.error})
     );
   }
 
   loggedIn(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
   }
 
   public getToken(): String | null {
@@ -75,6 +94,10 @@ export class AuthService {
 
   redirectToHome(): void {
     this.router.navigate(['home']);
+  }
+
+  redirectToSingIn(): void {
+    this.router.navigate(['auth/signin']);
   }
   
 }

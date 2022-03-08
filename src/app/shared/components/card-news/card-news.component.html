@@ -1,0 +1,5 @@
+<div [ngClass]="{'border-green-700': isChecked}" class="drop-shadow-md rounded-md border p-4 border-gray-300 min-h-min">
+    <h4 class="text-xl font-bold">{{news.title}}</h4>
+    <p class="flex flex-wrap">{{news.description}}</p>
+    <button (click)="setChecked(news)" type="checkbox" >Select</button>    
+</div>
