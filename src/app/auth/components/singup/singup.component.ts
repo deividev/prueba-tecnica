@@ -73,5 +73,4 @@ export class SingupComponent implements OnInit {
     return this.formSingUp.invalid ? true : false;
   }
 
-
 }

@@ -34,7 +34,6 @@ export class CardNewsComponent implements OnInit {
       if (news.isChecked) {
         const checkBoxId: any = document.getElementById(news.uuid);
         checkBoxId.checked = true;
-
         this.newsService.setIsNotCheckedNewsLessSelected(news.uuid);    
       }
       else {

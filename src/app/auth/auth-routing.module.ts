@@ -6,7 +6,6 @@ import { SingupComponent } from './components/singup/singup.component';
 const routes: Routes = [
   { path: 'singUp', component: SingupComponent },
   { path: 'signin', component: SigninComponent },
-  // { path: 'reset-password', component: ResetPasswordComponent }
 ];
 
 @NgModule({

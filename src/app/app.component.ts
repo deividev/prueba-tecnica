@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
     this.authService.getCurrentUser().subscribe(res => {
       this.user = res;
       this.isAdmin = this.authService.checkAdmin();
-
     });
   }
 
