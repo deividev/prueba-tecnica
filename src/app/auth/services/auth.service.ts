@@ -1,26 +1,60 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
-import { AuthResponse, User, UserloginRequest, UserloginResponse, UserRegisterReq, UserStorage } from '../models/user';
+import { User, UserloginRequest, UserloginResponse, UserRegisterReq } from '../models/user';
 import { Router } from '@angular/router';
 import { catchError, map, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  
-  user: User; 
 
+  private currenUserSubject: BehaviorSubject<User> = new BehaviorSubject({} as User);
+
+  role: string = "";
   constructor(private http: HttpClient, private router: Router) { 
-    this.user = new User("", "", "", "" )
+  }
+
+  getCurrentUser(): Observable<any> {
+    return this.currenUserSubject.asObservable();
+  }
+  
+  setCurrentUser(currentUser: User): void {
+    this.currenUserSubject.next(currentUser);
+  }
+
+  getRole(): string {
+   this.role = this.currenUserSubject.getValue().role;
+    return this.role;
+  }
+
+  postChangeRole(): Observable<any> {
+    const urlChangeRoleUser = environment.changeRoleApi + this.currenUserSubject.value.uuid;
+    return this.http.post<any>(urlChangeRoleUser, {}).pipe(
+      take(1),
+      map((res: UserloginResponse) => {
+        if (res?.user) {
+          this.setCurrentUser(res.user);
+        }
+        return res?.user;
+      }),
+      catchError((err) => {return err})
+    );
+  }
+
+  checkAdmin(): boolean {
+    this.role = this.getRole();
+    return this.role === "ADMIN_ROLE" ? true : false;
   }
 
   registerUser(user: UserRegisterReq): Observable<any> {
     return this.http.post<UserRegisterReq>(environment.singUpApi, user).pipe(
       take(1),
+      catchError((err) => {
+        return err.error.error})
     );
   }
 
@@ -28,43 +62,32 @@ export class AuthService {
     return this.http.post<any>(environment.singInApi, user).pipe(
       take(1),
       map((res: UserloginResponse) => {
-
-        this.saveLocalStorage(res.user);
-        this.addToken(res.token);
-        this.user = new User(res.user.name, res.user.email, res.user.role, res.user.uuid)
-        return this.user;
+        if (res?.user && res?.token) {
+          this.setCurrentUser(res.user);
+          this.addToken(res.token); 
+        }
+        return res?.user;
       }),
-      catchError((err) => {return err})
+      catchError((err) => {return err.error.error})
     );
   }
 
   loggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    let isLogin = localStorage.getItem('token') ? true : false;
+    return isLogin;
   }
 
-  // resetPasswordUser(email): any {
-  //   return this.http.post<any>(environment., email);
-  // }
+  logout(): void {
+    localStorage.removeItem('token');
+    this.redirectToSingIn();
+  }
 
-  
-
+  cleanCurrentUser(): void {
+    this.currenUserSubject.complete();
+  }
 
   public getToken(): String | null {
     return localStorage.getItem('token');
-  }
-
-  public getUserService(): User  {
-    return this.user;
-  }  
-
-  public getUser(): String  {
-    let userStorage: any = localStorage.getItem('user') !== null ? localStorage.getItem('user') : "";
-    return JSON.parse(userStorage);
-  }
-
-  private saveLocalStorage(resUser: UserStorage): void {
-    const userStorage: UserStorage = {name: resUser.name, role: resUser.role}
-    localStorage.setItem('user', JSON.stringify(userStorage));
   }
 
   public addToken(token: string): void {
@@ -77,6 +100,10 @@ export class AuthService {
 
   redirectToHome(): void {
     this.router.navigate(['home']);
+  }
+
+  redirectToSingIn(): void {
+    this.router.navigate(['auth/signin']);
   }
   
 }

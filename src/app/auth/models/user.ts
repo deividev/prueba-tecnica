@@ -5,9 +5,7 @@ export class User {
         public email: string,
         public role: string, 
         public uuid: string, 
-    ) {
-
-    }
+    ) {}
 }
 
 export interface AuthResponse {

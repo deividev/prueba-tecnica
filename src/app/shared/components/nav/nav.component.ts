@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { User } from 'src/app/auth/models/user';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { global } from 'src/constant';
 
 @Component({
   selector: 'app-nav',
@@ -9,23 +11,64 @@ import { User } from 'src/app/auth/models/user';
 export class NavComponent implements OnInit {
 
   @Input() userObject: any;
+  @Input() isUserAdmin: boolean = false;
+  @Output() isDashboardEvent: EventEmitter<boolean> = new EventEmitter(false);
+
 
   role: string = "";
   name: string = "";
+  nameCompany: string = "";
   email: string = "";
+  literalBtnRoleAdmin: string = "";
+  literalBtnLogout: string = "";
+  literalBtnDashboard: string = "";
+  literalBtnNews: string = "";
+  isAdmin: boolean = false;
+  isDashboard: boolean = false;
+  error: string = "";
 
-  constructor() { 
+  constructor(private authService: AuthService, private router: Router) { 
     
    }
 
   ngOnInit(): void {
-    this.initData()
+    this.literalBtnRoleAdmin = global.btnRoleAdmin;
+    this.literalBtnLogout = global.btnLogout;
+    this.literalBtnDashboard = global.btnDashboard;
+    this.literalBtnNews = global.btnNews;
+    this.nameCompany = global.nameCompany;
+    this.initData();
   }
 
   initData(): void{
-    this.role = this.userObject.role;
-    this.name = this.userObject.name;
-    this.email = this.userObject.email;
+    this.name = this.userObject.name ? this.userObject.name : "name";
   }
+
+  changeRoleUser(): void {
+    this.authService.postChangeRole().subscribe(res => {
+      this.isDashboard = !this.isDashboard;
+      this.isDashboardEvent.emit(this.isDashboard);
+    },
+    (error: any) => {
+      this.error = error;
+    })
+  }
+
+  viewDashboard(): void {
+    this.isDashboard = true;
+    this.isDashboardEvent.emit(this.isDashboard);
+    this.router.navigate(['dashboard']);
+  } 
+
+  viewNews(): void {
+    this.isDashboard = false;
+    this.isDashboardEvent.emit(this.isDashboard);
+    this.router.navigate(['home']);
+  }
+
+  logout(): void{
+    this.authService.logout();
+    this.authService.redirectToSingIn();
+  } 
 
 }

@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   singUpApi: 'http://localhost:3001/api/signup',
   singInApi: 'http://localhost:3001/api/signin',
-  resetPasswordApi: 'http://localhost:3001/api/signin',
+  changeRoleApi: 'http://localhost:3001/api/turn-admin/',
+  allNewsApi : 'http://localhost:3001/api/news'
 };
 
 /*

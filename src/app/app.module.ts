@@ -1,16 +1,19 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/services/auth.service';
-import { UserService } from './shared/services/user.service';
+import { JwtInterceptor } from './jwt.interceptor';
+import { NavComponent } from './shared/components/nav/nav.component';
+import { NewsService } from './shared/services/news.service';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
@@ -18,7 +21,15 @@ import { SharedModule } from './shared/shared.module';
     HttpClientModule,
     SharedModule
   ],
-  providers: [AuthService, UserService],
+  providers: [
+    AuthService,
+    NewsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

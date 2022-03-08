@@ -1,10 +1,8 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/shared/services/user.service';
 import { AuthResponse, User, UserRegisterReq } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
+import { global } from 'src/constant';
 
 @Component({
   selector: 'app-singup',
@@ -15,23 +13,35 @@ export class SingupComponent implements OnInit {
 
   formSingUp: FormGroup;
   error: string;
+  literalTitle: string ="";
+  literalLabelName: string ="";
+  literalLabelEmail: string ="";
+  literalLabelPass: string ="";
+  literalMessgQuestSignUp: string ="";
+  literalLinSignIn: string ="";
+  literalBtnSignUp: string ="";
 
   constructor(
-    private authService: AuthService,
-    private userService: UserService,) { 
+    private authService: AuthService) { 
     this.formSingUp = this.createForm();
     this.error = "";
   }
 
   ngOnInit(): void {
+    this.literalTitle = global.titleSignUp;
+    this.literalLabelName = global.labelName;
+    this.literalLabelEmail = global.labelEmail;
+    this.literalLabelPass = global.labelPassword;
+    this.literalMessgQuestSignUp = global.messQuestionSignUp
+    this.literalLinSignIn = global.linkSignIn;
+    this.literalBtnSignUp = global.btnSignUp;
   }
 
   createForm(): FormGroup {
     return new FormGroup({
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(9)]),
-      uuid: new FormControl('', [Validators.required,]),
+      password: new FormControl('', [Validators.required,]),
     });
   }
 
@@ -50,14 +60,17 @@ export class SingupComponent implements OnInit {
         console.log(res);
         localStorage.setItem('token', res.token);
         let user: User = {...registerUserData, role: 'USER_ROLE'}
-        //this.userService.setUser(user);
+        this.authService.setCurrentUser(user);
         this.authService.redirectToHome();
       },
-      (error: HttpErrorResponse) => {
-        this.error = error.error.error
+      (error: any) => {
+        this.error = error;
       }
     );
   }
 
+  validateForm(): boolean {
+    return this.formSingUp.invalid ? true : false;
+  }
 
 }

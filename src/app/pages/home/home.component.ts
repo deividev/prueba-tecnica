@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/auth/models/user';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { UserService } from 'src/app/shared/services/user.service';
+import { News } from 'src/app/shared/models/news';
+import { NewsService } from 'src/app/shared/services/news.service';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +11,28 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  isLogin: boolean = false;
-  user: String | null = null;
-  
-  constructor(private authService: AuthService, private userService: UserService) { }
+
+  listNews: News[] = [];
+  listNews$!: Observable<News[]>;
+  constructor(private authService: AuthService, private newsService: NewsService) { }
 
   ngOnInit(): void {
-    this.isLogin = this.authService.loggedIn();
-    this.user = this.authService.getUser();
-    let user2 = this.userService.currentUser.subscribe(res => {
-      debugger
+    this.getListNews()
+    this.getListNewsObservable();
+    this.authService.getCurrentUser().subscribe(res => {
     });
+  }
+
+  getListNewsObservable(): void {
+    this.listNews$ = this.newsService.getListNews$();
+    this.listNews$.subscribe(news => {
+      this.listNews = news;
+    });
+  }
+
+  getListNews(): void {
+    this.newsService.getListNews().subscribe(res=> {
+    })
   }
 
 }

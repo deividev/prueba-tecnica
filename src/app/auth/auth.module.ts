@@ -7,10 +7,8 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SigninComponent } from './components/signin/signin.component';
 import { SingupComponent } from './components/singup/singup.component';
 
-//Services
-import { AuthService } from './services/auth.service';
+//Module
 import { SharedModule } from '../shared/shared.module';
-import { UserService } from '../shared/services/user.service';
 
 
 @NgModule({
@@ -25,6 +23,6 @@ import { UserService } from '../shared/services/user.service';
     HttpClientModule,
     SharedModule
   ],
-  providers: [AuthService, UserService]
+  providers: []
 })
 export class AuthModule { }

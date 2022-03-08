@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from './services/user.service';
 import { NavComponent } from './components/nav/nav.component';
+import { CardNewsComponent } from './components/card-news/card-news.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
-    NavComponent
+    CardNewsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
-  exports: [NavComponent],
+  exports: [
+    CardNewsComponent
+  ],
   providers: []
 })
 export class SharedModule { }

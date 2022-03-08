@@ -1,0 +1,54 @@
+<section class="flex mt-2 py-4 px-12 over">
+    <div class="flex flex-col justify-start items-center w-1/4">
+      <h2 class="text-xl font-bold">Create, update or delete the news as needed</h2>
+      <form [formGroup]="formNews" class="bg-white p-10 rounded-md w-full flex flex-col justify-center">
+        <div class="flex flex-col mb-4">
+          <label for="title" class="mb-2">
+              {{literalLabelTitle}}
+          </label>
+          <input
+            formControlName="title"
+            id="title"
+            type="text"
+            name="title"
+            class="h-10 w-full border-gray-300 border-2 px-2 rounded-md"/>
+        </div>
+        <div class="flex flex-col mb-4">
+          <label for="description" class="mb-2">
+            {{literalLabelDescription}}
+          </label>
+          <textarea 
+            rows="5" 
+            cols="50"
+            formControlName="description"
+            id="description"
+            name="description"
+            class="w-full border-gray-300 border-2 py-2 px-4 rounded-md">
+          </textarea>
+        </div>
+        <div class="flex justify-center">
+          <button (click)="createNews()" type="checkbox" class="mx-2 bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-1 px-5 border-2
+            border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer">
+            {{literalBtnCreate}}
+          </button>
+          <button (click)="updateNewsSelected()" type="checkbox" class="mx-2 bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-1 px-5 border-2
+            border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer">
+            {{literalBtnUpdate}}
+          </button>
+          <button (click)="deleteNewsSelected()" type="checkbox" class="mx-2 bg-transparent hover:bg-blue-500 text-black font-semibold hover:text-white py-1 px-5 border-2
+            border-blue-500 hover:border-transparent rounded-md hover:cursor-pointer">
+            {{literalBtnDelete}}
+          </button>
+      </div>
+      </form>
+    </div>
+    <div class="flex flex-col items-center justify-center mx-12 w-3/4" >
+        <h2 class="text-3xl font-bold">News</h2>
+        <div class="border-2 border-red-500" *ngIf="error">
+          <p class="text-red-500">{{error}}</p>
+        </div>
+        <div class="grid gap-4 grid-cols-4 auto-rows-min pt-8" >
+            <app-card-news (newsCheked)="setNewsSelected($event)" [isClickSelected]="true" [news]="news" *ngFor="let news of listNews"></app-card-news>  
+        </div>
+    </div>
+</section>
