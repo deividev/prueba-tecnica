@@ -47,12 +47,11 @@ export class SingupComponent implements OnInit {
 
   registerUser(): void {
     const generateId = () => Math.random().toString(36).substr(2, 18);
-    this.formSingUp.controls['uuid'].setValue(generateId());
     let registerUserData: UserRegisterReq = {
       email: this.formSingUp.controls['email'].value,
       name: this.formSingUp.controls['name'].value,
       password: this.formSingUp.controls['password'].value,
-      uuid: this.formSingUp.controls['uuid'].value,
+      uuid: generateId(),
     }
     this.authService.registerUser(registerUserData)
     .subscribe(
