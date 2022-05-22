@@ -17,11 +17,11 @@ module.exports = {
       '3/4': '75%',
       'full': '100%',
     },
-    screens: {
-      'sm': {'min': '0px', 'max': '767px'},
-      'md': {'min': '768px', 'max': '1023px'},
-      'lg': {'min': '1224px' },
-    },
+    // screens: {
+    //   'sm': {'min': '0px', 'max': '767px'},
+    //   'md': {'min': '768px', 'max': '1023px'},
+    //   'lg': {'min': '1224px' },
+    // },
     extend: {},
   },
   plugins: [],

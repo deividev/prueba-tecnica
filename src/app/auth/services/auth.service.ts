@@ -27,8 +27,8 @@ export class AuthService {
   }
 
   getRole(): string {
-   this.role = this.currenUserSubject.getValue().role;
-    return this.role;
+   //this.role = this.currenUserSubject.getValue().role;
+    return "";
   }
 
   postChangeRole(): Observable<any> {
@@ -62,8 +62,10 @@ export class AuthService {
     return this.http.post<any>(environment.singInApi, user).pipe(
       take(1),
       map((res: UserloginResponse) => {
-        if (res?.user && res?.token) {
-          this.setCurrentUser(res.user);
+        debugger
+        if (res?.token) {
+          debugger
+          //this.setCurrentUser(res.user);
           this.addToken(res.token); 
         }
         return res?.user;

@@ -40,8 +40,8 @@ export class DashboardComponent implements OnInit {
     this.literalBtnCreate =  global.btnCreate;
     this.literalBtnUpdate = global.btnUpdate;
     this.literalBtnDelete = global.btnDelete;
-    this.getListNews()
-    this.getListNewsObservable();
+    //this.getListNews()
+    //this.getListNewsObservable();
   }
 
   createForm(): FormGroup {

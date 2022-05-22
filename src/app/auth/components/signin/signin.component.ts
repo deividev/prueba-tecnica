@@ -44,6 +44,7 @@ export class SigninComponent implements OnInit {
 
 
   loginUser(): void {
+    debugger
     this.loginUserReq.email = this.formSingIn.controls['email'].value;
     this.loginUserReq.password = this.formSingIn.controls['password'].value;
     this.authService.loginUser(this.loginUserReq)

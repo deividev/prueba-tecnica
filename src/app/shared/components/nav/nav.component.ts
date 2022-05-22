@@ -26,6 +26,8 @@ export class NavComponent implements OnInit {
   isAdmin: boolean = false;
   isDashboard: boolean = false;
   error: string = "";
+  showMenuUser: boolean = false;
+  showMenuHeader: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) { 
     
@@ -37,11 +39,19 @@ export class NavComponent implements OnInit {
     this.literalBtnDashboard = global.btnDashboard;
     this.literalBtnNews = global.btnNews;
     this.nameCompany = global.nameCompany;
-    this.initData();
+    //this.initData();
   }
 
   initData(): void{
     this.name = this.userObject.name ? this.userObject.name : "name";
+  }
+
+  openMenuUser(): void {
+    this.showMenuUser = !this.showMenuUser;
+  }
+
+  openMenuHeader(): void {
+    this.showMenuHeader = !this.showMenuHeader; 
   }
 
   changeRoleUser(): void {
